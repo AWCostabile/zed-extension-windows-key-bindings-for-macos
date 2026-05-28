@@ -1,0 +1,11 @@
+id = "windows-key-bindings"
+name = "Windows Key Bindings"
+version = "0.1.0"
+schema_version = 1
+authors = ["Anthony Costabile"]
+description = "Apply Windows/Linux-style Ctrl-based keyboard shortcuts to Zed on macOS via the /windows-keys slash command."
+repository = "https://github.com/AWCostabile/windows-key-bindings-for-macos"
+
+[slash_commands.win-keys]
+description = "Generate Windows-style keybindings for Zed on macOS"
+requires_argument = false

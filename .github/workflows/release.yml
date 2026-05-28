@@ -1,0 +1,92 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            binary: zed-win-keys
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            binary: zed-win-keys
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Build
+        working-directory: cli
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - name: Rename binary
+        run: cp "cli/target/${{ matrix.target }}/release/${{ matrix.binary }}" "zed-win-keys-${{ matrix.target }}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: binary-${{ matrix.target }}
+          path: zed-win-keys-*
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: zed-win-keys-*
+          generate_release_notes: true
+          body: |
+            ## Installation
+
+            Download the binary for your platform, make it executable, and move it to your PATH:
+
+            **macOS (Apple Silicon):**
+            ```bash
+            curl -L https://github.com/AWCostabile/windows-key-bindings-for-macos/releases/latest/download/zed-win-keys-aarch64-apple-darwin -o zed-win-keys
+            chmod +x zed-win-keys
+            sudo mv zed-win-keys /usr/local/bin/
+            ```
+
+            **macOS (Intel):**
+            ```bash
+            curl -L https://github.com/AWCostabile/windows-key-bindings-for-macos/releases/latest/download/zed-win-keys-x86_64-apple-darwin -o zed-win-keys
+            chmod +x zed-win-keys
+            sudo mv zed-win-keys /usr/local/bin/
+            ```
+
+            ## Quick start
+
+            ```bash
+            # See all available bindings
+            zed-win-keys list
+
+            # Apply all Windows-style keybindings
+            zed-win-keys apply
+
+            # Or apply only specific categories
+            zed-win-keys apply -c clipboard,navigation,find-replace
+
+            # Undo everything
+            zed-win-keys revert
+            ```
+
+            Then restart Zed for the changes to take effect.
