@@ -61,14 +61,14 @@ jobs:
 
             **macOS (Apple Silicon):**
             ```bash
-            curl -L https://github.com/AWCostabile/windows-key-bindings-for-macos/releases/latest/download/zed-win-keys-aarch64-apple-darwin -o zed-win-keys
+            curl -L https://github.com/AWCostabile/zed-extension-windows-key-bindings-for-macos/releases/latest/download/zed-win-keys-aarch64-apple-darwin -o zed-win-keys
             chmod +x zed-win-keys
             sudo mv zed-win-keys /usr/local/bin/
             ```
 
             **macOS (Intel):**
             ```bash
-            curl -L https://github.com/AWCostabile/windows-key-bindings-for-macos/releases/latest/download/zed-win-keys-x86_64-apple-darwin -o zed-win-keys
+            curl -L https://github.com/AWCostabile/zed-extension-windows-key-bindings-for-macos/releases/latest/download/zed-win-keys-x86_64-apple-darwin -o zed-win-keys
             chmod +x zed-win-keys
             sudo mv zed-win-keys /usr/local/bin/
             ```

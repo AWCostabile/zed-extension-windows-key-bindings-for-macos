@@ -48,12 +48,12 @@ A command-line tool that directly modifies your keymap — no Agent required.
 
 ```bash
 # macOS (Apple Silicon)
-curl -L https://github.com/AWCostabile/windows-key-bindings-for-macos/releases/latest/download/zed-win-keys-aarch64-apple-darwin -o zed-win-keys
+curl -L https://github.com/AWCostabile/zed-extension-windows-key-bindings-for-macos/releases/latest/download/zed-win-keys-aarch64-apple-darwin -o zed-win-keys
 chmod +x zed-win-keys
 sudo mv zed-win-keys /usr/local/bin/
 
 # macOS (Intel)
-curl -L https://github.com/AWCostabile/windows-key-bindings-for-macos/releases/latest/download/zed-win-keys-x86_64-apple-darwin -o zed-win-keys
+curl -L https://github.com/AWCostabile/zed-extension-windows-key-bindings-for-macos/releases/latest/download/zed-win-keys-x86_64-apple-darwin -o zed-win-keys
 chmod +x zed-win-keys
 sudo mv zed-win-keys /usr/local/bin/
 ```
@@ -61,8 +61,8 @@ sudo mv zed-win-keys /usr/local/bin/
 **From source (any platform):**
 
 ```bash
-git clone https://github.com/AWCostabile/windows-key-bindings-for-macos.git
-cd windows-key-bindings-for-macos/cli
+git clone https://github.com/AWCostabile/zed-extension-windows-key-bindings-for-macos.git
+cd zed-extension-windows-key-bindings-for-macos/cli
 cargo install --path .
 ```
 
@@ -105,7 +105,7 @@ Your existing custom bindings are always preserved.
 ## Architecture
 
 ```
-windows-key-bindings-for-macos/
+zed-extension-windows-key-bindings-for-macos/
 ├── extension.toml          # Zed extension manifest (slash command)
 ├── Cargo.toml              # WASM extension crate (zed_extension_api 0.7)
 ├── src/
