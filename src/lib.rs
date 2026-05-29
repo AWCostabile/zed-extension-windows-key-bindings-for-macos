@@ -1,4 +1,6 @@
-use zed_extension_api::{self as zed, Result, SlashCommand, SlashCommandOutput, SlashCommandOutputSection};
+use zed_extension_api::{
+    self as zed, Result, SlashCommand, SlashCommandOutput, SlashCommandOutputSection,
+};
 
 mod bindings;
 
@@ -94,8 +96,8 @@ impl zed::Extension for WindowsKeyBindingsExtension {
 fn generate_list_output() -> String {
     let mut out = String::from("# Windows Key Bindings — Available Categories\n\n");
     out.push_str("The following binding categories are available. ");
-    out.push_str("Use `/windows-keys apply <category>` to apply a specific category, ");
-    out.push_str("or `/windows-keys apply` to apply all.\n\n");
+    out.push_str("Use `/win-keys apply <category>` to apply a specific category, ");
+    out.push_str("or `/win-keys apply` to apply all.\n\n");
 
     for cat in CATEGORIES {
         out.push_str(&format!("## {} [{}]\n", cat.name, cat.slug));
@@ -103,14 +105,27 @@ fn generate_list_output() -> String {
         out.push_str("| Shortcut | Action | Context |\n");
         out.push_str("|----------|--------|---------|\n");
         for b in cat.bindings {
-            let ctx = if b.context.is_empty() { "global" } else { b.context };
-            out.push_str(&format!("| `{}` | `{}` | {} |\n", b.key, b.action_display(), ctx));
+            let ctx = if b.context.is_empty() {
+                "global"
+            } else {
+                b.context
+            };
+            out.push_str(&format!(
+                "| `{}` | `{}` | {} |\n",
+                b.key,
+                b.action_display(),
+                ctx
+            ));
         }
         out.push('\n');
     }
 
     let total: usize = CATEGORIES.iter().map(|c| c.bindings.len()).sum();
-    out.push_str(&format!("**Total: {} bindings across {} categories.**\n", total, CATEGORIES.len()));
+    out.push_str(&format!(
+        "**Total: {} bindings across {} categories.**\n",
+        total,
+        CATEGORIES.len()
+    ));
     out
 }
 
@@ -124,12 +139,16 @@ fn generate_revert_instructions() -> String {
     out.push_str("- **Windows:** `%APPDATA%\\Zed\\keymap.json`\n\n");
     out.push_str("## Steps\n\n");
     out.push_str("1. Open the keymap file\n");
-    out.push_str("2. Find and remove every object in the top-level array that has \
-                  `\"__managed_by\": \"zed-win-keys\"`\n");
+    out.push_str(
+        "2. Find and remove every object in the top-level array that has \
+                  `\"__managed_by\": \"zed-win-keys\"`\n",
+    );
     out.push_str("3. Preserve all other objects — those are the user's custom bindings\n");
     out.push_str("4. Save the file\n");
     out.push_str("5. The user should restart Zed or run `zed: reload keymap`\n\n");
-    out.push_str("**Important:** Do NOT remove objects that don't have the `__managed_by` marker.\n");
+    out.push_str(
+        "**Important:** Do NOT remove objects that don't have the `__managed_by` marker.\n",
+    );
     out
 }
 
@@ -164,7 +183,9 @@ fn generate_apply_output(category_filter: &[&str]) -> String {
 
     // Instructions for the Agent
     out.push_str("## Instructions for applying\n\n");
-    out.push_str("You are helping the user apply Windows/Linux-style keyboard shortcuts to Zed on macOS. ");
+    out.push_str(
+        "You are helping the user apply Windows/Linux-style keyboard shortcuts to Zed on macOS. ",
+    );
     out.push_str("These replace the default Cmd-based macOS shortcuts with Ctrl-based Windows-style ones.\n\n");
     out.push_str("### Keymap file location\n\n");
     out.push_str("- **macOS:** `~/.config/zed/keymap.json`\n");
@@ -175,9 +196,13 @@ fn generate_apply_output(category_filter: &[&str]) -> String {
     out.push_str("2. The file should contain a JSON array `[...]` at the top level\n");
     out.push_str("3. If there are existing blocks with `\"__managed_by\": \"zed-win-keys\"`, remove them first (these are from a previous apply)\n");
     out.push_str("4. Append ALL of the JSON blocks listed below to the array\n");
-    out.push_str("5. Preserve all existing user blocks that do NOT have the `__managed_by` marker\n");
+    out.push_str(
+        "5. Preserve all existing user blocks that do NOT have the `__managed_by` marker\n",
+    );
     out.push_str("6. Write the file back\n");
-    out.push_str("7. Tell the user to restart Zed or run `zed: reload keymap` from the command palette\n\n");
+    out.push_str(
+        "7. Tell the user to restart Zed or run `zed: reload keymap` from the command palette\n\n",
+    );
     out.push_str("### Important notes\n\n");
     out.push_str("- The `__managed_by` field is a marker so we can identify and update/remove these blocks later\n");
     out.push_str("- NEVER remove blocks that don't have this marker — those are the user's own customizations\n");
@@ -198,8 +223,13 @@ fn generate_apply_output(category_filter: &[&str]) -> String {
     // Category summary
     out.push_str("## Categories included\n\n");
     for cat in &selected_categories {
-        out.push_str(&format!("- **{}** ({}): {} ({} bindings)\n",
-            cat.name, cat.slug, cat.description, cat.bindings.len()));
+        out.push_str(&format!(
+            "- **{}** ({}): {} ({} bindings)\n",
+            cat.name,
+            cat.slug,
+            cat.description,
+            cat.bindings.len()
+        ));
     }
 
     out

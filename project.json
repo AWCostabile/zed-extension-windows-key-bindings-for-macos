@@ -1,0 +1,7 @@
+{
+  "author": "AWCostabile",
+  "files": ["Cargo.toml", "extension.toml"],
+  "linked": ["cli/project.json"],
+  "ref": "windows-key-bindings-for-macos",
+  "version": "0.0.0"
+}

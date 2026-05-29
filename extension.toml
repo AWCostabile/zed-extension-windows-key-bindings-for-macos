@@ -1,10 +1,10 @@
-id = "windows-key-bindings"
-name = "Windows Key Bindings"
-version = "0.1.0"
-schema_version = 1
+id = "windows-key-bindings-for-macos"
+version = "0.0.0"
 authors = ["Anthony Costabile"]
-description = "Apply Windows/Linux-style Ctrl-based keyboard shortcuts to Zed on macOS via the /windows-keys slash command."
+description = "Apply Windows/Linux-style Ctrl-based keyboard shortcuts to Zed on macOS via the `/win-keys` slash command in your Agent panel."
+name = "Windows Key Bindings for macOS"
 repository = "https://github.com/AWCostabile/zed-extension-windows-key-bindings-for-macos"
+schema_version = 1
 
 [slash_commands.win-keys]
 description = "Generate Windows-style keybindings for Zed on macOS"
